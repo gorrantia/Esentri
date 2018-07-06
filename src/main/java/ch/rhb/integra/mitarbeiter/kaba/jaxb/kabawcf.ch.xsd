@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://kabawcf.ch" elementFormDefault="qualified" xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" 
+targetNamespace="http://kabawcf.ch" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <!--xs:element name="AddPerson">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Person" nillable="true" type="tns:Person" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element-->
+  <xs:element name="SoapMessage" type="tns:SoapEnvelope"/>
+  <xs:complexType name="Person">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Arbeitsort" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Austritt" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="Eintritt" type="xs:dateTime" />
+      <xs:element name="Funktion" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Geschaeftsbereich" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="HauptkostenstelleNummer" nillable="true" type="xs:string" />
+      <xs:element name="Nachname" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Organisation" nillable="true" type="xs:string" />
+      <xs:element name="Personalnummer" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Vorname" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Person" nillable="true" type="tns:Person" />
+  <xs:element name="AddPersonResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="WcfFault">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ErrorMessage" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ErrorNo" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="WcfFault" nillable="true" type="tns:WcfFault" />
+  <xs:complexType name="SoapEnvelope" >
+  		<xs:sequence>
+  		<xs:element name="Envelope">
+  		<xs:complexType>
+  			<xs:sequence>
+  			<xs:element name="Body">
+  			<xs:complexType>
+  			<xs:sequence>
+  				  <xs:element name="AddPerson" type="tns:Persons"/>
+  			</xs:sequence>
+  			</xs:complexType>
+  			</xs:element>
+  			</xs:sequence>
+  		</xs:complexType>
+  		</xs:element>
+  		</xs:sequence>
+  </xs:complexType>
+   <xs:complexType name="SoapResponse" >
+  		<xs:sequence>
+  		<xs:element name="Envelope">
+  		<xs:complexType>
+  			<xs:sequence>
+  			<xs:element name="Body">
+  			<xs:complexType>
+  			<xs:sequence>
+  				  <xs:element name="AddPersonResponse"/>
+  			</xs:sequence>
+  			</xs:complexType>
+  			</xs:element>
+  			</xs:sequence>
+  		</xs:complexType>
+  		</xs:element>
+  		</xs:sequence>
+  </xs:complexType> 
+  <xs:complexType name="Persons">
+  	<xs:sequence>
+  		<xs:element name="Person" type="tns:Person" maxOccurs="unbounded" minOccurs="1"/>
+  	</xs:sequence>
+  </xs:complexType>
+
+    <xs:element name="SoapResponse" type="tns:SoapResponse"></xs:element>
+</xs:schema>

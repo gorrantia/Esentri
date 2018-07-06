@@ -1,0 +1,99 @@
+spec:
+  template:
+    spec:
+      containers:
+        -
+          volumeMounts:
+            - name: config-volume
+              mountPath: /deployments/config
+            - name: secret-volume
+              mountPath: /etc/secret-volume
+              readOnly: true
+            - name: keystore-volume
+              mountPath: /var/run/secrets/java.io/keystores
+            - name: variantea-execution-volume
+              mountPath: /deployments/variantea-lastexecution
+            - name: varianteb-execution-volume
+              mountPath: /deployments/varianteb-lastexecution
+
+          env:
+            - name: SENTRY_DSN
+              valueFrom:
+                 configMapKeyRef:
+                   name: sentry.io
+                   key: SENTRY_DSN
+            - name: SENTRY_ENVIRONMENT
+              valueFrom:
+                 configMapKeyRef:
+                   name: sentry.io
+                   key: SENTRY_ENVIRONMENT
+            - name: SENTRY_RELEASE
+              value: ${version}
+            - name: PERFORMIS_USERNAME
+              valueFrom:
+                 secretKeyRef:
+                   name: performis
+                   key: username
+            - name: PERFORMIS_PASSWORD
+              valueFrom:
+                 secretKeyRef:
+                   name: performis
+                   key: password
+            - name: AXEDO_USERNAME
+              valueFrom:
+                 secretKeyRef:
+                   name: axedo
+                   key: username
+            - name: AXEDO_PASSWORD
+              valueFrom:
+                 secretKeyRef:
+                   name: axedo
+                   key: password
+            - name: TRAPEZE_USERNAME
+              valueFrom:
+                 secretKeyRef:
+                   name: trapeze
+                   key: username
+            - name: TRAPEZE_PASSWORD
+              valueFrom:
+                 secretKeyRef:
+                   name: trapeze
+                   key: password
+            - name: ca_bundle
+              value: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+            - name: truststore_jks
+              value: /var/run/secrets/java.io/keystores/truststore.jks
+            - name: performis_crt
+              value: /etc/secret-volume/ca.crt
+            - name: password
+              value: changeit
+            - name: JAVA_OPTIONS
+              value: -Djavax.net.ssl.trustStore=/var/run/secrets/java.io/keystores/truststore.jks -Djavax.net.ssl.trustStorePassword=changeit
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                - /bin/sh
+                - -c
+                - "csplit -z -f /tmp/crt- $ca_bundle '/-----BEGIN CERTIFICATE-----/' '{*}' && for file in /tmp/crt-*;
+                   do keytool -import -noprompt -keystore $truststore_jks -file $file -storepass changeit -alias service-$file;
+                   done;
+                   csplit -z -f /tmp/perf- $performis_crt '/-----BEGIN CERTIFICATE-----/' '{*}' && for file in /tmp/perf-*;
+                   do keytool -import -noprompt -keystore $truststore_jks -file $file -storepass changeit -alias service-$file;
+                   done"
+
+      volumes:
+        - name: variantea-execution-volume
+          configMap:
+            name: variantea-lastexecution
+        - name: varianteb-execution-volume
+          configMap:
+            name: varianteb-lastexecution
+        - name: config-volume
+          configMap:
+            name: ${project.artifactId}
+        - name: secret-volume
+          secret:
+            secretName: performis-crt
+        - name: keystore-volume
+          emtpyDir: {}

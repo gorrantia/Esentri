@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.psipenta.de/WebServiceDataSchema" 
+targetNamespace="http://www.psipenta.de/WebServiceDataSchema"
+attributeFormDefault="qualified">
+  <xsd:element name="Reply" type="reply"/>
+  <xsd:complexType name="Result">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="type" use="required" type="resultType"/>
+        <xsd:attribute name="code" type="xsd:string" use="optional"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+    <xsd:simpleType name="resultType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="error"/>
+      <xsd:enumeration value="ok"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="reply">
+    <xsd:sequence>
+      <xsd:element name="Record" type="PropertyList" maxOccurs="1" minOccurs="1"/>
+      <xsd:element name="Result" type="Result"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="PropertyListWithOptionalLines">
+    <xsd:complexContent>
+      <xsd:extension base="PropertyList">
+        <xsd:sequence>
+          <xsd:element name="Line" type="PropertyList" maxOccurs="unbounded" minOccurs="0">
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+    <xsd:complexType name="Property">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="name" use="required" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="PropertyList">
+  <xsd:sequence>
+    <xsd:element name="Property" type="Property" maxOccurs="unbounded" minOccurs="1"/>
+  </xsd:sequence>
+  <xsd:attribute name="key" type="xsd:string" use="required"/>
+</xsd:complexType>
+  
+    <xsd:simpleType name="FieldName">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1" />
+      <xsd:maxLength value="32" />
+      <xsd:pattern value="[a-zA-Z0-9_]+" />
+      <xsd:whiteSpace value="collapse" />
+      <xsd:pattern value="\*" />
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

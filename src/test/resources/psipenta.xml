@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:Reply xmlns:p="http://www.psipenta.de/WebServiceDataSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.psipenta.de/WebServiceDataSchema psipenta.xsd">
+  <Record p:key="1001">
+      <Property p:name="COMPANY">Rhb</Property>
+      <Property p:name="COMPANYADDRESS">4841</Property>
+      <Property p:name="DEGREE"/>
+      <Property p:name="EMAILADRESS">michael.forrer@rhb.ch</Property>
+      <Property p:name="EMPLOYEENO">10001</Property>
+      <Property p:name="FIRSTNAME">Michael Testli vom Michi</Property>
+      <Property p:name="HOMEPAGE">Techniker Test</Property>
+      <Property p:name="ID">10001</Property>
+      <Property p:name="INITIALS"/>
+      <Property p:name="MOBILEPHONE"/>
+      <Property p:name="NAMESUPPLEMENT"/>
+      <Property p:name="OFFICEFAX">+41812886515</Property>
+      <Property p:name="OFFICEPHONE">+41812886254</Property>
+      <Property p:name="PERSON_FIRSTNAME"/>
+      <Property p:name="PERSON_SURNAME"/>
+      <Property p:name="POSITION"/>
+      <Property p:name="PRIVATEADDRESS"/>
+      <Property p:name="PRIVATEPHONE"/>
+      <Property p:name="ROOM"/>
+      <Property p:name="SUBSTITUTE"/>
+      <Property p:name="SUBSTITUTESTATUS">0</Property>
+      <Property p:name="SURNAME">Forrer Test</Property>
+      <Property p:name="TITLE">System Engineer</Property>   
+  </Record>
+  <Result p:type="ok"/>
+</p:Reply>
